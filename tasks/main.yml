@@ -27,10 +27,10 @@
     docker service create -d --name sonarqube \
     --network mangonet \
     --label traefik.port=9000 \
-    --mount 'type=volume,"volume-opt=o=addr=grid011.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/conf,volume-opt=type=nfs,target=/opt/sonarqube/conf' \
-    --mount 'type=volume,"volume-opt=o=addr=grid011.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/data,volume-opt=type=nfs,target=/opt/sonarqube/data' \
-    --mount 'type=volume,"volume-opt=o=addr=grid011.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/logs,volume-opt=type=nfs,target=/opt/sonarqube/logs' \
-    --mount 'type=volume,"volume-opt=o=addr=grid011.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/extensions,volume-opt=type=nfs,target=/opt/sonarqube/extensions' \
+    --mount 'type=volume,"volume-opt=o=addr=files.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/conf,volume-opt=type=nfs,target=/opt/sonarqube/conf' \
+    --mount 'type=volume,"volume-opt=o=addr=files.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/data,volume-opt=type=nfs,target=/opt/sonarqube/data' \
+    --mount 'type=volume,"volume-opt=o=addr=files.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/logs,volume-opt=type=nfs,target=/opt/sonarqube/logs' \
+    --mount 'type=volume,"volume-opt=o=addr=files.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/extensions,volume-opt=type=nfs,target=/opt/sonarqube/extensions' \
     --replicas 1 \
     -e sonar.jdbc.username={{sonarqube_db_user}} \
     -e sonar.jdbc.password={{sonarqube_db_password}} \
