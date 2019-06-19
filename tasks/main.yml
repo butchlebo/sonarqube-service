@@ -15,12 +15,12 @@
 - name: Set fact to carry sonarqube user
   connection: local
   set_fact:
-    sonar_db_user: "{{lookup('hashivault', 'service/sonarqube', 'sonar_db_user')}}"
+    sonarqube_db_user: "{{lookup('hashivault', 'service/sonarqube', 'sonar_db_user')}}"
 
 - name: Set fact to carry sonarqube secret
   connection: local
   set_fact:
-    sonar_db_password: "{{lookup('hashivault', 'service/sonarqube', 'sonar_db_password')}}"
+    sonarqube_db_password: "{{lookup('hashivault', 'service/sonarqube', 'sonar_db_password')}}"
 
 - name: Deploy sonarqube service
   command: |
