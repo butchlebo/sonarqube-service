@@ -33,7 +33,7 @@
     --mount 'type=volume,"volume-opt=o=addr=grid011.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/extensions,volume-opt=type=nfs,target=/opt/sonarqube/extensions' \
     --replicas 1 \
     -e sonar.jdbc.username={{sonarqube_db_user}} \
-    -e sonar.jdbc.password={{sonarqube_db_passwd}} \
+    -e sonar.jdbc.password={{sonarqube_db_password}} \
     -e sonar.jdbc.url=jdbc:postgresql://{{db_host}}/{{sonarqube_db_user}} \ \
     {{sonarqube_docker_image}}:{{sonarqube_docker_image_tag}}
   run_once: true
