@@ -22,11 +22,6 @@
   set_fact:
     sonarqube_db_password: "{{lookup('hashivault', 'service/sonarqube', 'sonar_db_password')}}"
 
-- name: Set fact to carry ldap url
-  connection: local
-  set_fact:
-    ldap_url: "{{lookup('hashivault', 'service/jumpcloud', 'ldap_url')}}"
-
 - name: Set fact to carry ldap bind DN
   connection: local
   set_fact:
