@@ -3,3 +3,4 @@
 sonarqube_docker_image: sonarqube
 sonarqube_docker_image_tag: latest
 db_host: postgres.sysmango.net
+ldap_url: ldaps://ldap.jumpcloud.com

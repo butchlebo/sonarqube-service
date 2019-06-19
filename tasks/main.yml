@@ -22,11 +22,32 @@
   set_fact:
     sonarqube_db_password: "{{lookup('hashivault', 'service/sonarqube', 'sonar_db_password')}}"
 
+- name: Set fact to carry ldap url
+  connection: local
+  set_fact:
+    ldap_url: "{{lookup('hashivault', 'service/jumpcloud', 'ldap_url')}}"
+
+- name: Set fact to carry ldap bind DN
+  connection: local
+  set_fact:
+    ldap_bind_dn: "{{lookup('hashivault', 'service/jumpcloud', 'ldap_bind_dn')}}"
+
+- name: Set fact to carry ldap bind DN
+  connection: local
+  set_fact:
+    ldap_bind_pwd: "{{lookup('hashivault', 'service/jumpcloud', 'ldap_bind_pwd')}}"
+
+- name: Set fact to carry ldap base DN
+  connection: local
+  set_fact:
+    ldap_base_dn: "{{lookup('hashivault', 'service/jumpcloud', 'ldap_base_dn')}}"
+
 - name: Deploy sonarqube service
   command: |
     docker service create -d --name sonarqube \
     --network mangonet \
     --label traefik.port=9000 \
+    --label traefik.enabled=true \
     --mount 'type=volume,"volume-opt=o=addr=files.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/conf,volume-opt=type=nfs,target=/opt/sonarqube/conf' \
     --mount 'type=volume,"volume-opt=o=addr=files.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/data,volume-opt=type=nfs,target=/opt/sonarqube/data' \
     --mount 'type=volume,"volume-opt=o=addr=files.sysmango.net,vers=4.1",volume-opt=device=:/srv/nfs/sonarqube/logs,volume-opt=type=nfs,target=/opt/sonarqube/logs' \
@@ -34,7 +55,12 @@
     --replicas 1 \
     -e sonar.jdbc.username={{sonarqube_db_user}} \
     -e sonar.jdbc.password={{sonarqube_db_password}} \
-    -e sonar.jdbc.url=jdbc:postgresql://{{db_host}}/{{sonarqube_db_user}} \ \
+    -e sonar.jdbc.url=jdbc:postgresql://{{db_host}}/{{sonarqube_db_user}} \
+    -e sonar.security.realm=LDAP \
+    -e ldap.url={{ldap_url}} \
+    -e ldap.bindDn={{ldap_bind_dn}} \
+    -e ldap.bindPassword={{ldap_bind_pwd}} \
+    -e ldap.user.baseDn={{ldap_base_dn}} \
     {{sonarqube_docker_image}}:{{sonarqube_docker_image_tag}}
   run_once: true
   when: sonarqube_status.rc == 1
